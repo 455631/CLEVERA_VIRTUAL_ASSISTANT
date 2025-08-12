@@ -25,6 +25,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.set('set-proxy',1)
 
 app.listen(port, () => {
     connectDb();
