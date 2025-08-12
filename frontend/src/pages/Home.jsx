@@ -412,32 +412,27 @@ function Home() {
       }
     };
 
-    recognition.onerror = (event) => {
-      console.warn("⚠️ Recognition error:", event.error);
-      isRecognizingRef.current = false;
-      setListening(false);
-      
-      if (event.error === "network") {
-        setConnectionStatus("disconnected");
+   recognition.onerror = (event) => {
+  console.warn("⚠️ Recognition error:", event.error);
+  isRecognizingRef.current = false;
+  setListening(false);
+
+  // Skip restart if it's just aborted or no-speech
+  if (["aborted", "no-speech"].includes(event.error)) return;
+
+  if (event.error === "network") {
+    setConnectionStatus("disconnected");
+  }
+
+  if (!isSpeakingRef.current && !isProcessing) {
+    setTimeout(() => {
+      try { recognition.start(); } catch (e) {
+        if (e.name !== "InvalidStateError") console.error("Restart failed:", e);
       }
-      
-      // Only restart on certain errors and if not processing
-      if (event.error !== "aborted" && event.error !== "no-speech" && 
-          isMounted && !isSpeakingRef.current && !isProcessing) {
-        setTimeout(() => {
-          if (isMounted && !isProcessing) {
-            try {
-              recognition.start();
-              console.log("🎤 Recognition restarted after error");
-            } catch (e) {
-              if (e.name !== "InvalidStateError") {
-                console.error("❌ Error restart failed:", e);
-              }
-            }
-          }
-        }, 3000); // Even longer delay after error
-      }
-    };
+    }, 3000);
+  }
+};
+
 
     recognition.onresult = async (event) => {
       const transcript = event.results[event.results.length - 1][0].transcript.trim();
