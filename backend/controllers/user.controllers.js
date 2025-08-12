@@ -4,7 +4,9 @@ import User from "../models/user.model.js"
 import moment from "moment"
  export const getCurrentUser=async (req,res)=>{
     try {
+      
         const userId=req.userId
+        console.log(userId)
         const user=await User.findById(userId).select("-password")
         if(!user){
 return res.status(400).json({message:"user not found"})
@@ -42,8 +44,10 @@ export const askToAssistant = async (req, res) => {
   try {
     const { command } = req.body;
     console.log('command', command);
+    console.log('userId',req.userId)
 
     const user = await User.findById(req.userId);
+    console.log('user',user)
     user.history.push(command);
     await user.save();
 
