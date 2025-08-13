@@ -25,7 +25,7 @@ try {
         httpOnly:true,
         secure: true,   
          crossOrigin: true,  
-      sameSite: "None", 
+     
       path: "/"
     })
 
@@ -56,7 +56,7 @@ try {
          httpOnly:true,
         secure: true,   
          crossOrigin: true,  
-      sameSite: "None", 
+     
       path: "/"
     })
 
