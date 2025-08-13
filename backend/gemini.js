@@ -113,7 +113,7 @@ Respond with valid JSON only:`;
 
         // Use x-goog-api-key header as shown in your curl command
         const result = await axios.post(apiUrl, requestData, {
-            timeout: 15000,
+           
             headers: {
                 'Content-Type': 'application/json',
                 'x-goog-api-key': apiKey // Using header instead of query parameter

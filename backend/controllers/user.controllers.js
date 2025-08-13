@@ -57,7 +57,7 @@ export const askToAssistant = async (req, res) => {
     const result = await geminiResponse(command, assistantName, userName);
     console.log('result', result);
 
-    // ✅ Directly use result since it's already an object
+  
     const gemResult = result;
 
     const type = gemResult.type;
